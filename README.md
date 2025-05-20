@@ -1,8 +1,8 @@
 # 🌱 Digital Twin Greenhouse System
 
 A comprehensive digital twin solution for real-time monitoring and control of a smart greenhouse environment. This system creates and manages a virtual replica of a physical greenhouse using Apache NiFi, Apache Kafka, and a Flask-based dashboard.
+![Screenshot 2025-05-20 144640](https://github.com/user-attachments/assets/3281001b-d1b2-4a3a-8997-b519e240c201)
 
-<!-- Insert your "Screenshot 2025-05-20 144640" image here -->
 
 ## 🧠 Context and Objectives
 
