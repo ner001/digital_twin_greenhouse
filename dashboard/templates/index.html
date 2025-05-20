@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Home Dashboard</title>
+    <style>
+        body { font-family: Arial; background: #f4f4f4; }
+        .event { margin: 10px; padding: 10px; border-radius: 5px; }
+        .critical { background: #ffcccc; }
+        .warning { background: #fff3cd; }
+        .normal { background: #e2f7e2; }
+    </style>
+    <script>
+        async function fetchEvents() {
+            const res = await fetch('/events');
+            const data = await res.json();
+            const container = document.getElementById('events');
+            container.innerHTML = '';
+            data.forEach(ev => {
+                let cls = 'normal';
+                let msg = '';
+                if (ev.temperature > 28) {
+                    cls = 'critical';
+                    msg += 'High temperature! ';
+                }
+                if (ev.motion && ev.armed) {
+                    cls = 'warning';
+                    msg += 'Motion detected while armed! ';
+                }
+                if (ev.door && ev.night) {
+                    cls = 'critical';
+                    msg += 'Garage door opened at night! ';
+                }
+                container.innerHTML += `<div class="event ${cls}">
+                    <b>Room:</b> ${ev.sensor_id} <b>Temp:</b> ${ev.temperature}°C <b>Humidity:</b> ${ev.humidity}%<br>
+                    <b>Motion:</b> ${ev.motion} <b>Door:</b> ${ev.door} <b>Night:</b> ${ev.night}<br>
+                    <b>Alert:</b> ${msg || 'None'} <br>
+                    <small>${new Date(ev.timestamp * 1000).toLocaleString()}</small>
+                </div>`;
+            });
+        }
+        setInterval(fetchEvents, 2000);
+        window.onload = fetchEvents;
+    </script>
+</head>
+<body>
+    <h1>Smart Home Digital Twin Dashboard</h1>
+    <div id="events"></div>
+</body>
+</html>

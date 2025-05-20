@@ -1,0 +1,10 @@
+<!--
+This is a placeholder for your NiFi flow. 
+You should use the NiFi UI (http://localhost:8080/nifi) to visually create the flow as described in the README, then export it and replace this file.
+
+Flow outline:
+- ConsumeKafka (topic: smart-home-sensors)
+- EvaluateJsonPath (extract fields)
+- RouteOnAttribute (route based on alert conditions: temp > 28, motion+armed, door+night)
+- PutKafka (topic: smart-home-events for alerts, smart-home-history for all)
+-->
