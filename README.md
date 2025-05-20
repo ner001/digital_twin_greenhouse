@@ -75,6 +75,8 @@ git clone https://github.com/ner001/digital-twin-greenhouse.git
 cd digital-twin-greenhouse
 docker-compose up --build
 ```
+## screenshots 
+![Screenshot 2025-05-20 230555](https://github.com/user-attachments/assets/52ea25c9-69f4-41d4-bb20-17d3e156c9f0)
 
 ### 🧭 Available Interfaces
 
