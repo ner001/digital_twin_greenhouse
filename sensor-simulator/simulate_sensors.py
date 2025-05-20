@@ -10,7 +10,7 @@ producer = KafkaProducer(
 )
 
 ROOMS = ['living_room', 'bedroom', 'kitchen', 'garage']
-ARMED = True  # Simulate home security system armed
+ARMED = True  
 
 def is_night():
     hour = datetime.now().hour
