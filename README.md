@@ -1,236 +1,154 @@
-# Digital Twin Greenhouse System
+# 🌱 Digital Twin Greenhouse System
 
-A comprehensive digital twin solution for real-time greenhouse monitoring and control using Apache NiFi, Apache Kafka, and Flask.
+A comprehensive digital twin solution for real-time monitoring and control of a smart greenhouse environment. This system creates and manages a virtual replica of a physical greenhouse using Apache NiFi, Apache Kafka, and a Flask-based dashboard.
 
-![Greenhouse Digital Twin](https://via.placeholder.com/800x400?text=Greenhouse+Digital+Twin)
+<!-- Insert your "Screenshot 2025-05-20 144640" image here -->
 
-## Overview
+## 🧠 Context and Objectives
 
-This system creates a virtual representation of a greenhouse environment, enabling real-time monitoring and data analysis. By leveraging Apache NiFi for data processing, Apache Kafka for messaging, and a Flask-based dashboard, this project provides a complete solution for smart greenhouse management.
+A Digital Twin is a digital replica of a physical environment. This project aims to create a digital twin of a connected greenhouse, enabling:
 
-## Features
+- Real-time monitoring of climate conditions
+- Automatic anomaly detection
+- Centralized and visual environment management
+- Virtual testing of security scenarios (e.g., intrusion detection)
 
-- **Real-time Environmental Monitoring**
-  - Temperature, humidity, and light level sensors
-  - Configurable sampling rates
-  - Anomaly detection for sensor readings
+This system can be implemented in agricultural applications, home automation, or internal security systems.
 
-- **Data Processing Pipeline**
-  - Scalable data ingestion with Apache NiFi
-  - Real-time data transformation and validation
-  - Automated alert generation for out-of-range conditions
+## 🧾 JSON Data Model
 
-- **Message Streaming Architecture**
-  - Event-driven design with Apache Kafka
-  - Multi-topic organization for different data streams
-  - Reliable message delivery
+The simulated sensors produce data in this JSON format:
 
-- **Interactive Dashboard**
-  - Real-time visualization of all sensor metrics
-  - Historical data trends
-  - Mobile-responsive design for monitoring on any device
+```json
+{
+  "sensor_id": "living_room",
+  "temperature": 22.45,
+  "humidity": 55.2,
+  "motion": false,
+  "door": null,
+  "armed": true,
+  "night": false,
+  "timestamp": 1716200000
+}
+```
 
-## System Architecture
+### Field Descriptions:
+
+| Field | Description |
+|-------|-------------|
+| sensor_id | Room or sensor identifier (e.g., garage, kitchen) |
+| temperature | Ambient temperature (°C) |
+| humidity | Humidity level (%) |
+| motion | Motion detection status (true/false) |
+| door | Door status (open/closed) - only for garage sensor |
+| armed | Security system activation status |
+| night | Indicates whether it's nighttime |
+| timestamp | UNIX timestamp of the reading |
+
+## ⚙️ System Architecture
 
 ```
 ┌───────────────┐    ┌───────────────┐    ┌───────────────┐
-│               │    │               │    │               │
-│    Sensor     │───▶│  Apache NiFi  │───▶│   Dashboard   │
-│   Simulator   │    │  Data Pipeline│    │               │
-│               │    │               │    │               │
+│  Simulated    │───▶│  Apache NiFi  │───▶│   Dashboard   │
+│  Sensors      │    │  (Pipeline)   │    │   Flask+Plotly│
 └───────────────┘    └───────────────┘    └───────────────┘
-                            │                    
                             │                    
                             ▼                    
                      ┌───────────────┐           
-                     │               │           
                      │ Apache Kafka  │           
-                     │  Message Bus  │           
-                     │               │           
+                     │ (Message Bus) │           
                      └───────────────┘           
 ```
 
-## Quick Start
+## 🚀 Installation and Launch
 
-### Prerequisites
+### 🔧 Prerequisites
 
-- Docker and Docker Compose
+- Docker & Docker Compose
 - Git
-- Internet connection (for initial container downloads)
+- Internet connection
 
-### Installation
+### 📦 Installation
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/yourusername/digital-twin-greenhouse.git
-   cd digital-twin-greenhouse
-   ```
-
-2. **Build and start the stack:**
-   ```bash
-   docker-compose up --build
-   ```
-
-3. **Access components:**
-   - NiFi Interface: [http://localhost:8080/nifi](http://localhost:8080/nifi)
-   - Dashboard: [http://localhost:5000](http://localhost:5000)
-
-### Initial Configuration
-
-1. **Import NiFi Template:**
-   - Open NiFi UI at [http://localhost:8080/nifi](http://localhost:8080/nifi)
-   - Upload and import `nifi/smart_home_flow.xml` template
-   - Start all processor groups
-
-## Component Details
-
-### Sensor Simulator
-
-Located in `sensor-simulator/` directory, this component:
-- Generates realistic environmental data based on configurable parameters
-- Simulates temperature, humidity, and light level variations
-- Publishes data to Kafka topics at configurable intervals
-- Easily customizable for different simulation scenarios
-
-### Apache NiFi Data Pipeline
-
-The NiFi flow (`nifi/smart_home_flow.xml`) implements:
-- Data ingestion from Kafka topics
-- JSON parsing and validation
-- Alert generation for out-of-range conditions
-- Data transformation and enrichment
-- Publishing to downstream Kafka topics
-
-### Dashboard Application
-
-Built with Flask, Plotly, and Bootstrap for:
-- Real-time visualization with automatically updating charts
-- Historical data analysis with filtering capabilities
-- Alert monitoring and management
-- System health metrics
-- Mobile-responsive design
-
-## Advanced Configuration
-
-### Environment Variables
-
-The system can be configured via environment variables in the `.env` file:
-
-```
-# Kafka Configuration
-KAFKA_BOOTSTRAP_SERVERS=kafka:9092
-KAFKA_REPLICATION_FACTOR=1
-
-# NiFi Configuration
-NIFI_WEB_HTTPS_PORT=8443
-
-# Database Configuration
-INFLUXDB_BUCKET=greenhouse
-INFLUXDB_ORG=greenhouse-org
-INFLUXDB_RETENTION=30d
-
-# Simulator Configuration
-SIMULATOR_INTERVAL_MS=5000
-SIMULATOR_ANOMALY_PROBABILITY=0.01
-
-# Dashboard Configuration
-DASHBOARD_REFRESH_INTERVAL_MS=2000
+```bash
+git clone https://github.com/ner001/digital-twin-greenhouse.git
+cd digital-twin-greenhouse
+docker-compose up --build
 ```
 
-### Production Deployment
+### 🧭 Available Interfaces
 
-For production environments:
+- NiFi UI: http://localhost:8080/nifi
+- Dashboard: http://localhost:5000
 
-1. Enable security features:
-   - Uncomment security configurations in `docker-compose.yml`
-   - Generate SSL certificates using the provided script
-   - Configure authentication for NiFi, Kafka, and the dashboard
-
-2. Scale components as needed:
-   - Adjust service replicas in `docker-compose.yml`
-   - Configure Kafka partitioning for higher throughput
-   - Enable NiFi clustering for fault tolerance
-
-## Development
-
-### Project Structure
+## 📁 Project Structure
 
 ```
 digital-twin-greenhouse/
-├── docker-compose.yml
-├── README.md
-├── dashboard/
-│   ├── templates/
-│   │   └── index.html
+├── docker-compose.yml          # Multi-container deployment
+├── dashboard/                  # Flask application
 │   ├── app.py
-│   ├── Dockerfile
-│   └── requirements.txt
+│   ├── templates/index.html
 ├── nifi/
-│   └── smart_home_flow.xml
-└── sensor-simulator/
-    ├── Dockerfile
-    ├── simulate_sensors.py
-    └── docker-compose.yml
+│   └── smart_home_flow.xml     # NiFi pipeline template
+├── sensor-simulator/           # Simulated data generation
+│   ├── simulate_sensors.py
+│   └── Dockerfile
+└── .env                        # Environment variable configuration
 ```
 
-### Adding New Features
+## 🐳 Docker Compose Explanation
 
-- **New Sensor Type:**
-  1. Add sensor generation logic to `sensor-simulator/simulate_sensors.py`
-  2. Update NiFi flow to process the new sensor data
-  3. Add visualization components to the dashboard
+The docker-compose.yml file defines the following services:
 
-- **Custom Visualization:**
-  1. Modify `dashboard/templates/index.html` to add new chart elements
-  2. Update `dashboard/app.py` to process and serve the new data
-  3. Test with simulated sensor data
+- Zookeeper and Kafka for message handling
+- Apache NiFi for data processing
+- Sensor Simulator to simulate physical sensors
+- Flask Dashboard for data visualization
 
-## Troubleshooting
+Each service is isolated and communicates via a dedicated Docker network.
 
-### Common Issues
+## 🛠️ Initial Configuration
 
-- **Kafka Connection Issues:**
-  - Ensure Zookeeper is running and healthy
-  - Check network connectivity between containers
-  - Verify topic configurations
+1. Launch containers with `docker-compose up --build`
+2. Open the NiFi interface at http://localhost:8080/nifi
+3. Import the `nifi/smart_home_flow.xml` file
+4. Start all processor groups
+5. Access the dashboard at http://localhost:5000
 
-- **NiFi Flow Not Processing:**
-  - Check processor configurations
-  - Verify Kafka connection properties
-  - Examine NiFi logs for errors
+## 📊 Expected Results
 
-- **Dashboard Not Displaying Data:**
-  - Confirm data is flowing through Kafka topics
-  - Check browser console for JavaScript errors
+- Real-time sensor visualization: temperature, humidity, motion, door status
+- Automatic anomaly detection
+- Storage and display of historical data
+- Responsive interface accessible on smartphones
 
-### Logs
+## 🧪 NiFi Flow Example
 
-Access component logs:
+- Extract data from Kafka
+- Parse JSON
+- Validate schema
+- Transform data
+- Generate alerts if temperature or humidity anomalies detected
+- Reinject into Kafka (output topic)
+
+## 🔄 Customization
+
+### Adding a new sensor type:
+1. Modify `sensor-simulator/simulate_sensors.py`
+2. Adapt the flow in NiFi
+3. Add graphs in `dashboard/app.py` and `index.html`
+
+## 🧩 Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| Kafka not working | Check Zookeeper, ports, and connectivity |
+| NiFi not displaying data | Verify topics, logs, and processor configuration |
+| Empty dashboard | Verify data flow in Kafka, restart Flask |
+
+View logs:
+
 ```bash
 docker-compose logs -f [service-name]
 ```
-
-Available services:
-- `zookeeper`
-- `kafka`
-- `nifi`
-- `sensor-simulator`
-- `dashboard`
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Commit changes: `git commit -am 'Add new feature'`
-4. Push to branch: `git push origin feature-name`
-5. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- Apache NiFi and Kafka communities
-- Flask and Plotly for visualization components
-- All contributors and testers
