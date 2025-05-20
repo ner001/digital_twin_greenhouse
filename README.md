@@ -61,7 +61,7 @@ This system creates a virtual representation of a greenhouse environment, enabli
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/digital-twin-greenhouse.git
+   git clone https://github.com/ner001/digital-twin-greenhouse.git
    cd digital-twin-greenhouse
    ```
 
