@@ -7,4 +7,4 @@ Flow outline:
 - EvaluateJsonPath (extract fields)
 - RouteOnAttribute (route based on alert conditions: temp > 28, motion+armed, door+night)
 - PutKafka (topic: smart-home-events for alerts, smart-home-history for all)
--->
+-->  

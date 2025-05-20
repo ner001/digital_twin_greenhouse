@@ -5,7 +5,6 @@ import json
 
 app = Flask(__name__)
 events = []
-
 def consume_events():
     consumer = KafkaConsumer(
         'smart-home-events',
